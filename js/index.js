@@ -1,15 +1,22 @@
 // preloader toggle
-const toggleSpinner = prop => {
-    document.getElementById('spinner').style.display = prop;
-}
+const toggleSpinner = prop => document.getElementById('spinner').style.display = prop;
+
+// empty container
+const emptyContainer = container => container.textContent = '';
+
+// get phone container
+const getPhoneContainer = () => document.getElementById('phones');
+
+// get details container
+const getDetailsContainer = () => document.getElementById('details');
 
 // get phones by search text
 const getPhone = () => {
-    document.getElementById('phones').textContent = '';
-    document.getElementById('details').textContent = '';
+    emptyContainer(getPhoneContainer());
+    emptyContainer(getDetailsContainer());
     const search = document.getElementById('search-phone').value.toLowerCase();
     if(search == ''){
-        document.getElementById('phones').innerHTML = `
+        getPhoneContainer().innerHTML = `
             <div class="col-md-10 mt-3 mx-auto alert alert-danger" role="alert">
                 Search Field Is Empty !!!!
             </div>`
@@ -34,7 +41,7 @@ const loadAll = searchText=>{
 // display remaining phones more than 20
 const displayRemainingPhones = phones =>{
     const remainingPhones = phones.slice(20,phones.length);
-    const container = document.getElementById('phones');
+    const container = getPhoneContainer();
     remainingPhones.forEach(phone => {
         const div = document.createElement('div');
         div.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-4', 'g-5');
@@ -61,8 +68,8 @@ const displayRemainingPhones = phones =>{
 // display first 20 phones if more than 20 exist
 const displayPhones = (phones, search) => {
     
-    const container = document.getElementById('phones');
-    container.textContent = '';
+    const container = getPhoneContainer();
+    emptyContainer(container);
     const arrayLength = phones.length;
     if (arrayLength != 0) {
         const first20Phones = phones.slice(0, 20);
@@ -93,7 +100,6 @@ const displayPhones = (phones, search) => {
             <button onclick = "loadAll('${search}')" class="btn btn-primary rounded" type="button">Load More Phones</button>
             `;
             container.appendChild(buttonDiv);
-            console.log(arrayLength);
         }
 
     } else {
@@ -114,9 +120,10 @@ const getDetails = phone_id =>{
         .then(data => showDetails(data.data))
 }
 
+// show single phone details
 const showDetails = details =>{
-    const detailsContainer = document.getElementById('details');
-    detailsContainer.textContent='';
+    const detailsContainer = getDetailsContainer();
+    emptyContainer(detailsContainer);
     // console.log(details);
     detailsContainer.innerHTML = `  
     <div class=" col-12 col-md-8 col-lg-8 mt-3 mx-auto">
