@@ -17,14 +17,51 @@ const getPhone = () => {
         const url = `https://openapi.programming-hero.com/api/phones?search=${search}`;
         fetch(url)
             .then(res => res.json())
-            .then(data => displayPhones(data.data))
+            .then(data => displayPhones(data.data, search))
     }
 }
 
-const displayPhones = phones => {
+const loadAll = searchText=>{
+    document.getElementById('load-more').style.setProperty('display','none','important');
+    const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => displayRemainingPhones(data.data))
+}
+
+const displayRemainingPhones = phones =>{
+    const remainingPhones = phones.slice(20,phones.length);
+    const container = document.getElementById('phones');
+    remainingPhones.forEach(phone => {
+        const div = document.createElement('div');
+        div.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-4', 'g-5');
+        div.innerHTML = `
+            <div class="card bg-light py-5 rounded">
+                <img src=${phone.image} class="card-img-top w-50 mx-auto" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold"> ${phone.phone_name}</h5>
+                    <p class="card-text fw-bolder">Brand: ${phone.brand}</p>
+                    <div class="d-grid">
+                        <button type="button" onclick="getDetails('${phone.slug}')" class="btn btn-outline-success rounded-pill">show details</button>
+                    </div>
+                   
+                </div>
+            </div> 
+        `;
+        container.appendChild(div);
+    })
+
+    
+}
+
+
+
+const displayPhones = (phones, search) => {
+    
     const container = document.getElementById('phones');
     container.textContent = '';
-    if (phones.length != 0) {
+    const arrayLength = phones.length;
+    if (arrayLength != 0) {
         const first20Phones = phones.slice(0, 20);
         first20Phones.forEach(phone => {
             const div = document.createElement('div');
@@ -43,7 +80,19 @@ const displayPhones = phones => {
                 </div> 
             `;
             container.appendChild(div);
-        });
+        })
+
+        if(arrayLength > 20){
+            const buttonDiv = document.createElement('div');
+            buttonDiv.classList.add('d-grid','col-md-10','mx-auto','my-5');
+            buttonDiv.setAttribute('id','load-more');
+            buttonDiv.innerHTML = `
+            <button onclick = "loadAll('${search}')" class="btn btn-primary rounded" type="button">Load More Phones</button>
+            `;
+            container.appendChild(buttonDiv);
+            console.log(arrayLength);
+        }
+
     } else {
         container.innerHTML = `
             <div class="col-md-10 mt-3 mx-auto alert alert-danger" role="alert">
@@ -64,7 +113,7 @@ const getDetails = phone_id =>{
 const showDetails = details =>{
     const detailsContainer = document.getElementById('details');
     detailsContainer.textContent='';
-    // console.log(details);
+    console.log(details);
     detailsContainer.innerHTML = `  
     <div class=" col-12 col-md-8 col-lg-8 mt-3 mx-auto">
         <div class="card bg-light py-5 rounded">
