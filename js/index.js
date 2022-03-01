@@ -81,7 +81,7 @@ const showDetails = details =>{
             <p class="card-text"><span class="fw-bolder">Memory: </span> ${details.mainFeatures.memory}</p>
             <p class="card-text"><span class="fw-bolder">Storage: </span> ${details.mainFeatures.storage}</p>
             
-            <p class="card-text"><span class="fw-bolder">Sensors: </span> ${details.mainFeatures.sensors.join('/ ')}</p>
+            <p class="card-text"><span class="fw-bolder">Sensors: </span> ${details.mainFeatures.sensors.map(element => element).join(", ")}</p>
 
             <h5 class="text-danger fw-bold">Others Features</h5>
             ${details.others? `
