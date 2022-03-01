@@ -1,8 +1,9 @@
+// preloader toggle
 const toggleSpinner = prop => {
     document.getElementById('spinner').style.display = prop;
 }
 
-
+// get phones by search text
 const getPhone = () => {
     document.getElementById('phones').textContent = '';
     document.getElementById('details').textContent = '';
@@ -21,6 +22,7 @@ const getPhone = () => {
     }
 }
 
+// load all phones 
 const loadAll = searchText=>{
     document.getElementById('load-more').style.setProperty('display','none','important');
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
@@ -29,6 +31,7 @@ const loadAll = searchText=>{
             .then(data => displayRemainingPhones(data.data))
 }
 
+// display remaining phones more than 20
 const displayRemainingPhones = phones =>{
     const remainingPhones = phones.slice(20,phones.length);
     const container = document.getElementById('phones');
@@ -55,7 +58,7 @@ const displayRemainingPhones = phones =>{
 }
 
 
-
+// display first 20 phones if more than 20 exist
 const displayPhones = (phones, search) => {
     
     const container = document.getElementById('phones');
@@ -103,6 +106,7 @@ const displayPhones = (phones, search) => {
     toggleSpinner('none');
 }
 
+// get phones detail by phone id
 const getDetails = phone_id =>{
     const url = `https://openapi.programming-hero.com/api/phone/${phone_id}`;
     fetch(url)
@@ -113,7 +117,7 @@ const getDetails = phone_id =>{
 const showDetails = details =>{
     const detailsContainer = document.getElementById('details');
     detailsContainer.textContent='';
-    console.log(details);
+    // console.log(details);
     detailsContainer.innerHTML = `  
     <div class=" col-12 col-md-8 col-lg-8 mt-3 mx-auto">
         <div class="card bg-light py-5 rounded">
