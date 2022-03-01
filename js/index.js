@@ -46,11 +46,9 @@ const displayPhones = phones => {
         });
     } else {
         container.innerHTML = `
-
             <div class="col-md-10 mt-3 mx-auto alert alert-danger" role="alert">
                 Phone Does Not Exist !!
             </div>
-        
         `;
     }
     toggleSpinner('none');
@@ -66,25 +64,31 @@ const getDetails = phone_id =>{
 const showDetails = details =>{
     const detailsContainer = document.getElementById('details');
     detailsContainer.textContent='';
-    console.log(details);
+    // console.log(details);
     detailsContainer.innerHTML = `  
     <div class=" col-12 col-md-8 col-lg-8 mt-3 mx-auto">
         <div class="card bg-light py-5 rounded">
         <img src=${details.image} class="card-img-top w-50 mx-auto" alt="...">
         <div class="card-body">
             <h4 class="card-title fw-bold text-success"> ${details.name}</h4>
+
             <p class="card-text"><span class="fw-bolder">Brand: </span>  ${details.brand}</p>
+
             <p class="card-text"><span class="fw-bolder">Release Date: </span>  ${details.releaseDate ? details.releaseDate:'Not Available'}</p>
+
             <h5 class="text-danger fw-bold">Main Features</h5>
-            <p class="card-text"><span class="fw-bolder">Cipset: </span> ${details.mainFeatures.chipSet}</p>
-            <p class="card-text"><span class="fw-bolder">Display Size: </span> ${details.mainFeatures.displaySize}</p>
-            <p class="card-text"><span class="fw-bolder">Memory: </span> ${details.mainFeatures.memory}</p>
-            <p class="card-text"><span class="fw-bolder">Storage: </span> ${details.mainFeatures.storage}</p>
+            <p class="card-text"><span class="fw-bolder">Cipset: </span> ${details.mainFeatures.chipSet ? details.mainFeatures.chipSet : 'not available'}</p>
+
+            <p class="card-text"><span class="fw-bolder">Display Size: </span> ${details.mainFeatures.displaySize ? details.mainFeatures.displaySize : 'not available'}</p>
+
+            <p class="card-text"><span class="fw-bolder">Memory: </span> ${details.mainFeatures.memory ? details.mainFeatures.memory : 'not available'}</p>
+
+            <p class="card-text"><span class="fw-bolder">Storage: </span> ${details.mainFeatures.storage ? details.mainFeatures.chipSet : 'not available'}</p>
             
-            <p class="card-text"><span class="fw-bolder">Sensors: </span> ${details.mainFeatures.sensors.map(element => element).join(", ")}</p>
+            <p class="card-text"><span class="fw-bolder">Sensors: </span> ${details.mainFeatures.sensors ? details.mainFeatures.sensors.map(element => element).join(", ") : 'not available'}</p>
 
             <h5 class="text-danger fw-bold">Others Features</h5>
-            ${details.others? `
+            ${details.others ? `
             
                 <p class="card-text"><span class="fw-bolder">Blutooth: </span>  ${details.others.Bluetooth ? details.others.Bluetooth : 'not available'}</p>
                 <p class="card-text"><span class="fw-bolder">GPS: </span>  ${details.others.GPS ? details.others.GPS : 'not available'}</p>
