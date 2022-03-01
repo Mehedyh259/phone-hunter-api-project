@@ -5,13 +5,20 @@ const toggleSpinner = prop => {
 
 const getPhone = () => {
     document.getElementById('phones').textContent = '';
-    toggleSpinner('block');
+    document.getElementById('details').textContent = '';
     const search = document.getElementById('search-phone').value.toLowerCase();
-    const url = `https://openapi.programming-hero.com/api/phones?search=${search}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(data => displayPhones(data.data))
-
+    if(search == ''){
+        document.getElementById('phones').innerHTML = `
+            <div class="col-md-10 mt-3 mx-auto alert alert-danger" role="alert">
+                Search Field Is Empty !!!!
+            </div>`
+    }else{
+        toggleSpinner('block');
+        const url = `https://openapi.programming-hero.com/api/phones?search=${search}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => displayPhones(data.data))
+    }
 }
 
 const displayPhones = phones => {
@@ -67,23 +74,24 @@ const showDetails = details =>{
         <div class="card-body">
             <h4 class="card-title fw-bold text-success"> ${details.name}</h4>
             <p class="card-text"><span class="fw-bolder">Brand: </span>  ${details.brand}</p>
-            <p class="card-text"><span class="fw-bolder">Release Date: </span>  ${details.releaseDate ? details.releaseDate:'not available'}</p>
+            <p class="card-text"><span class="fw-bolder">Release Date: </span>  ${details.releaseDate ? details.releaseDate:'Not Available'}</p>
             <h5 class="text-danger fw-bold">Main Features</h5>
             <p class="card-text"><span class="fw-bolder">Cipset: </span> ${details.mainFeatures.chipSet}</p>
             <p class="card-text"><span class="fw-bolder">Display Size: </span> ${details.mainFeatures.displaySize}</p>
             <p class="card-text"><span class="fw-bolder">Memory: </span> ${details.mainFeatures.memory}</p>
             <p class="card-text"><span class="fw-bolder">Storage: </span> ${details.mainFeatures.storage}</p>
-            <p class="card-text"><span class="fw-bolder">Sensors: </span> ${details.mainFeatures.sensors}</p>
+            
+            <p class="card-text"><span class="fw-bolder">Sensors: </span> ${details.mainFeatures.sensors.join('/ ')}</p>
 
             <h5 class="text-danger fw-bold">Others Features</h5>
             ${details.others? `
             
-                <p class="card-text"><span class="fw-bolder">Blutooth: </span>  ${details.others.Bluetooth}</p>
-                <p class="card-text"><span class="fw-bolder">GPS: </span>  ${details.others.GPS}</p>
-                <p class="card-text"><span class="fw-bolder">NFC: </span>  ${details.others.NFC}</p>
-                <p class="card-text"><span class="fw-bolder">Radio: </span>  ${details.others.Radio}</p>
-                <p class="card-text"><span class="fw-bolder">USB: </span>  ${details.others.USB}</p>
-                <p class="card-text"><span class="fw-bolder">WLAN: </span>  ${details.others.WLAN}</p>
+                <p class="card-text"><span class="fw-bolder">Blutooth: </span>  ${details.others.Bluetooth ? details.others.Bluetooth : 'not available'}</p>
+                <p class="card-text"><span class="fw-bolder">GPS: </span>  ${details.others.GPS ? details.others.GPS : 'not available'}</p>
+                <p class="card-text"><span class="fw-bolder">NFC: </span>  ${details.others.NFC ? details.others.NFC : 'not available'}</p>
+                <p class="card-text"><span class="fw-bolder">Radio: </span>  ${details.others.Radio ? details.others.Radio : 'not available'}</p>
+                <p class="card-text"><span class="fw-bolder">USB: </span>  ${details.others.USB ? details.others.USB : 'not available'}</p>
+                <p class="card-text"><span class="fw-bolder">WLAN: </span>  ${details.others.WLAN ? details.others.WLAN : 'not available'}</p>
             
             `: 'Not Available'}
             
